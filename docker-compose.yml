@@ -1,0 +1,48 @@
+services:
+
+  postgres:
+    image: postgres:18
+    container_name: eucast_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: abcdefg
+      POSTGRES_DB: eucast
+    ports:
+      - "5433:5432"
+    volumes:
+      - eucast_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d eucast"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: ./eucast-api
+      dockerfile: Dockerfile
+    container_name: eucast_api
+    env_file: ./eucast-api/.env
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./eucast-frontend
+      dockerfile: Dockerfile
+    container_name: eucast_frontend
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+volumes:
+  eucast_data:

@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+psycopg[binary]
+groq
+python-dotenv
+pydantic-settings
+pandas
+openpyxl
+numpy
+requests
+python-multipart
