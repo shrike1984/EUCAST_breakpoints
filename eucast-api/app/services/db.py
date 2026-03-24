@@ -168,10 +168,13 @@ def get_antibioticos(version: Optional[str] = None, grupo_eucast: Optional[str] 
             return [row[0] for row in cur.fetchall()]
 
 
-def get_indicaciones(antibiotico: str, version: Optional[str] = None) -> List[Optional[str]]:
-    """Devuelve las indicaciones distintas para un antibiótico dado."""
-    conditions = ["antibiotico ILIKE %s"]
-    params = [f"%{antibiotico}%"]
+def get_indicaciones(antibiotico: str, grupo_eucast: str, version: Optional[str] = None) -> List[Optional[str]]:
+    """Devuelve las indicaciones distintas para un antibiótico y grupo EUCAST dado."""
+    conditions = [
+        "antibiotico ILIKE %s",
+        "grupo_eucast = %s"
+    ]
+    params = [f"%{antibiotico}%", grupo_eucast]
 
     if version:
         conditions.append("version = %s")
@@ -190,7 +193,6 @@ def get_indicaciones(antibiotico: str, version: Optional[str] = None) -> List[Op
         with conn.cursor() as cur:
             cur.execute(query, params)
             return [row[0] for row in cur.fetchall()]
-
 
 def query_breakpoints(grupo_eucast: str, antibiotico: str,
     via_administracion: Optional[str] = None,
