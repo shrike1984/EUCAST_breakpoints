@@ -305,6 +305,7 @@ export default function Home() {
 
   useEffect(() => {
     if (!antibiotico) { setIndicaciones([]); return; }
+    console.log("getIndicaciones →", { antibiotico, grupoEucast, version });
     getIndicaciones(antibiotico, grupoEucast ?? undefined, version)
       .then(setIndicaciones)
       .catch(() => {});
