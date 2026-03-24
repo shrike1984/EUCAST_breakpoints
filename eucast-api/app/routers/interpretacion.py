@@ -45,10 +45,11 @@ def listar_antibioticos(
 @router.get("/indicaciones", response_model=List[Optional[str]], summary="Indicaciones para un antibiótico")
 def listar_indicaciones(
     antibiotico: str,
+    grupo_eucast: Optional[str] = None,
     version: Optional[str] = None,
 ):
     '''Devuelve una lista de las indicaciones clínicas disponibles para un antibiótico específico.'''
-    return get_indicaciones(antibiotico=antibiotico, version=version)
+    return get_indicaciones(antibiotico=antibiotico, grupo_eucast=grupo_eucast, version=version)
 
 @router.post("/cargar", summary="Cargar una nueva versión de breakpoints desde un archivo Excel")
 def cargar_tablas(

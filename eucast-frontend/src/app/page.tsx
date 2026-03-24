@@ -254,6 +254,8 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [resultado, setResultado] = useState<ResultadoAPI | null>(null);
 
+  const [grupoEucast, setGrupoEucast] = useState<string | null>(null);
+
   const resultRef = useRef<HTMLDivElement>(null);
 
   const MODELOS_GROQ = [
@@ -297,14 +299,16 @@ export default function Home() {
   }, [version]);
 
   useEffect(() => {
-    if (!antibiotico) {
-      setIndicaciones([]);
-      return;
-    }
-    getIndicaciones(antibiotico, version)
+    setGrupoEucast(null);
+    setIndicaciones([]);
+  }, [microorganismo]);
+
+  useEffect(() => {
+    if (!antibiotico) { setIndicaciones([]); return; }
+    getIndicaciones(antibiotico, grupoEucast ?? undefined, version)
       .then(setIndicaciones)
       .catch(() => {});
-  }, [antibiotico, version]);
+  }, [antibiotico, grupoEucast, version]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -324,6 +328,9 @@ export default function Home() {
         indicacion: indicacion || null,
       });
       setResultado(res);
+      if ("grupo_eucast" in res && res.grupo_eucast) {
+        setGrupoEucast(res.grupo_eucast);
+      }
       setTimeout(
         () => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }),
         100

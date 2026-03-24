@@ -168,13 +168,14 @@ def get_antibioticos(version: Optional[str] = None, grupo_eucast: Optional[str] 
             return [row[0] for row in cur.fetchall()]
 
 
-def get_indicaciones(antibiotico: str, grupo_eucast: str, version: Optional[str] = None) -> List[Optional[str]]:
+def get_indicaciones(antibiotico: str, grupo_eucast: Optional[str] = None, version: Optional[str] = None):
     """Devuelve las indicaciones distintas para un antibiótico y grupo EUCAST dado."""
-    conditions = [
-        "antibiotico ILIKE %s",
-        "grupo_eucast = %s"
-    ]
-    params = [f"%{antibiotico}%", grupo_eucast]
+    conditions = ["antibiotico ILIKE %s"]
+    params = [f"%{antibiotico}%"]
+
+    if grupo_eucast:
+        conditions.append("grupo_eucast = %s")
+        params.append(grupo_eucast)
 
     if version:
         conditions.append("version = %s")

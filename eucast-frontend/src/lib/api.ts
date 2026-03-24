@@ -67,8 +67,9 @@ export async function getAntibioticos(version?: string | null): Promise<string[]
   return res.json();
 }
 
-export async function getIndicaciones(antibiotico: string, version?: string | null): Promise<(string | null)[]> {
+export async function getIndicaciones(antibiotico: string, grupo_eucast?: string | null, version?: string | null): Promise<(string | null)[]> {
   const params = new URLSearchParams({ antibiotico });
+  if (grupo_eucast) params.append("grupo_eucast", grupo_eucast);
   if (version) params.append("version", version);
   const res = await fetch(`${API_URL}/api/v1/indicaciones?${params}`);
   if (!res.ok) throw new Error("No se pudieron obtener las indicaciones");
