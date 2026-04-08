@@ -121,7 +121,7 @@ function BreakpointCard({
         )}
       </div>
       {bp.mic_s != null && <BreakpointRow label="MIC S ≤" value={bp.mic_s} unit="mg/L" />}
-      {bp.mic_r != null && <BreakpointRow label="MIC R ≥" value={bp.mic_r} unit="mg/L" />}
+      {bp.mic_r != null && <BreakpointRow label="MIC R >" value={bp.mic_r} unit="mg/L" />}
       {bp.atu_mic_min != null && (
         <div className="flex items-center justify-between py-1.5 border-b border-white/[0.06] last:border-0">
           <span className="text-xs text-white/40 font-medium">ATU MIC</span>
@@ -132,7 +132,7 @@ function BreakpointCard({
         </div>
       )}
       {bp.zone_s != null && <BreakpointRow label="Zone S ≥" value={bp.zone_s} unit="mm" />}
-      {bp.zone_r != null && <BreakpointRow label="Zone R ≤" value={bp.zone_r} unit="mm" />}
+      {bp.zone_r != null && <BreakpointRow label="Zone R <" value={bp.zone_r} unit="mm" />}
       {bp.atu_zone_min != null && (
         <BreakpointRow
           label="ATU Zone"
