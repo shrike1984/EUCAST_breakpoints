@@ -551,7 +551,7 @@ export default function Home() {
               <label className={glass.label}>
                 Vía admin.{" "}
                 <span className="normal-case font-normal text-white/20 tracking-normal">
-                  (opcional)
+                  (filtro secundario opcional, después de consulta primaria)
                 </span>
               </label>
               <select
